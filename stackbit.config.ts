@@ -1,28 +1,45 @@
-import { defineStackbitConfig } from '@stackbit/types';
-import { GitContentSource } from '@stackbit/cms-git';
-import { allModels } from './.stackbit/models';
+import { defineStackbitConfig } from "@stackbit/types";
+import { GitContentSource } from "@stackbit/cms-git";
+import { allModels } from "./.stackbit/models";
 
 const config = defineStackbitConfig({
-    stackbitVersion: '~0.7.0',
-    ssgName: 'nextjs',
-    nodeVersion: '18',
+    stackbitVersion: "~0.7.0",
+    ssgName: "nextjs",
+    nodeVersion: "18",
+
     contentSources: [
         new GitContentSource({
             rootPath: __dirname,
-            contentDirs: ['content'],
-            models: allModels,
+            contentDirs: ["content"], // Where the content is stored
+            models: [
+                {
+                    name: "page",
+                    type: "page",
+                    label: "Page",
+                    urlPath: "/{slug}", // Page URLs follow this format
+                    filePath: "content/pages/{slug}.json", // Where content files are stored
+                    fields: [
+                        { name: "title", type: "string", label: "Title", required: true },
+                        { name: "body", type: "markdown", label: "Body", required: true },
+                        { name: "image", type: "image", label: "Feature Image" }
+                    ]
+                }
+            ],
             assetsConfig: {
-                referenceType: 'static',
-                staticDir: 'public',
-                uploadDir: 'images',
-                publicPath: '/'
+                referenceType: "static",
+                staticDir: "public",
+                uploadDir: "images",
+                publicPath: "/"
             }
         })
     ],
+
     presetSource: {
-        type: 'files',
-        presetDirs: ['./.stackbit/presets']
+        type: "files",
+        presetDirs: ["./.stackbit/presets"]
     },
-    styleObjectModelName: 'ThemeStyle'
+
+    styleObjectModelName: "ThemeStyle"
 });
+
 export default config;
