@@ -14,7 +14,7 @@ const config = defineStackbitConfig({
             models: [
                 {
                     name: "page",
-                    type: "page",
+                    type: "page", // Explicitly defining as a page model
                     label: "Page",
                     urlPath: "/{slug}", // Page URLs follow this format
                     filePath: "content/pages/{slug}.json", // Where content files are stored
@@ -22,7 +22,8 @@ const config = defineStackbitConfig({
                         { name: "title", type: "string", label: "Title", required: true },
                         { name: "body", type: "markdown", label: "Body", required: true },
                         { name: "image", type: "image", label: "Feature Image" }
-                    ]
+                    ],
+                    page: true // <-- This explicitly marks it as an editable page model
                 }
             ],
             assetsConfig: {
